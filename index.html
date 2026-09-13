@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F1F4F1">
-<title>누구 차례야?</title>
+<title>누구 차례예요?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -123,7 +123,10 @@ button{cursor:pointer;border:none;background:none}
 .h-main{flex:1;min-width:0}
 .h-main b{font-family:'Jua',sans-serif;font-weight:400;font-size:16px}
 .h-meta{font-size:12.5px;color:var(--ink-soft)}
-.h-order{display:flex;gap:2px;flex-wrap:wrap;justify-content:flex-end;max-width:120px}
+.h-order{display:flex;gap:2px;flex-wrap:wrap;justify-content:flex-end;max-width:110px}
+.h-del{width:30px;height:30px;border-radius:50%;background:var(--bg);color:var(--ink-soft);font-size:14px;font-family:'Jua',sans-serif;flex:none;display:grid;place-items:center}
+.h-del:active{background:#C0504D;color:#fff}
+.more-btn{width:100%;margin-top:4px;padding:12px;border-radius:14px;background:#fff;border:1.5px dashed var(--line);font-family:'Jua',sans-serif;font-size:15px;color:var(--ink-soft)}
 .empty{text-align:center;color:var(--ink-soft);padding:48px 12px;display:flex;flex-direction:column;gap:14px;align-items:center}
 .empty .big{font-size:40px}
 
@@ -252,13 +255,34 @@ button{cursor:pointer;border:none;background:none}
 .ranks-mini{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;min-height:34px}
 .ranks-mini span{display:flex;align-items:center;gap:4px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:2px 10px 2px 2px;font-family:'Jua',sans-serif;font-size:14px}
 
+/* 지뢰 상자 */
+.mine-turn{display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Jua',sans-serif;font-size:18px;margin-bottom:10px;min-height:44px}
+.mine-turn .who{display:flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:3px 14px 3px 3px;max-width:60vw}
+.mine-turn .who span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mine-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px}
+.mine-grid{display:grid;gap:6px;width:100%;max-width:340px}
+.box{
+  aspect-ratio:1;border-radius:12px;background:var(--butter-l);border:1.5px solid var(--butter);
+  display:grid;place-items:center;font-size:clamp(15px,5vw,24px);font-family:'Jua',sans-serif;color:var(--ink);
+  transition:transform .1s;
+}
+.box:active{transform:scale(.9)}
+.box.open{background:#F7F8F7;border-color:var(--line);border-style:dashed;color:var(--ink-soft);animation:pop .3s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.box.open.num{background:var(--sky-l);border-color:var(--sky);border-style:solid;color:var(--ink);font-size:clamp(14px,4.4vw,20px)}
+.box.boom{background:#C0504D;border-color:#C0504D;animation:shake .45s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-4px,2px) rotate(-3deg)}40%{transform:translate(4px,-2px) rotate(3deg)}60%{transform:translate(-3px,1px)}80%{transform:translate(3px,-1px)}}
+.mine-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mine-bar span{display:flex;align-items:center;gap:4px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:2px 10px 2px 2px;font-family:'Jua',sans-serif;font-size:13.5px;max-width:130px}
+.mine-bar span b{font-weight:400;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mine-bar span.out{opacity:.4;text-decoration:line-through}
+.mine-info{font-size:13.5px;color:var(--ink-soft)}
+
 /* 결과 파티 */
 .result{display:none;flex-direction:column;align-items:center;gap:6px;text-align:center}
 .result.on{display:flex}
 .party-av{animation:partyPop .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes partyPop{0%{transform:scale(.3)}100%{transform:none}}
 .party-t{font-family:'Jua',sans-serif;font-size:28px}
-.party-s{font-size:15px;color:var(--ink-soft)}
 .rank-list{list-style:none;display:flex;flex-direction:column;gap:8px;width:100%;margin-top:4px}
 .rank-list li{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:8px 12px;font-family:'Jua',sans-serif;font-size:17px;animation:slideIn .35s both}
 .rank-list li .no{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:var(--bg);color:var(--ink);flex:none}
@@ -313,7 +337,7 @@ button{cursor:pointer;border:none;background:none}
         <div id="heroWheel"></div>
       </div>
       <div>
-        <div class="title">누구 차례야?</div>
+        <div class="title">누구 차례예요?</div>
         <p class="sub">리모컨, 앞자리, 마지막 과자까지<br>게임으로 공평하게 정해요</p>
       </div>
       <div class="start-box">
@@ -321,7 +345,7 @@ button{cursor:pointer;border:none;background:none}
         <div class="or">가족 코드가 있다면</div>
         <div class="join-row">
           <input class="field" id="inCode" maxlength="6" placeholder="코드 6자리" autocomplete="off" aria-label="가족 코드">
-          <button class="jelly mint" id="btnJoin">들어가기</button>
+          <button class="jelly mint" id="btnJoin">들어갈래요</button>
         </div>
         <div class="msg" id="startMsg"></div>
       </div>
@@ -332,8 +356,8 @@ button{cursor:pointer;border:none;background:none}
   <section id="scrWho" class="screen">
     <div class="body">
       <div>
-        <div class="title" style="font-size:34px">나는 누구야?</div>
-        <p class="sub">이 폰을 쓰는 사람을 골라줘</p>
+        <div class="title" style="font-size:34px">누구세요?</div>
+        <p class="sub">이 폰을 쓰는 사람을 골라주세요</p>
       </div>
       <div class="who-list" id="whoList"></div>
     </div>
@@ -342,21 +366,21 @@ button{cursor:pointer;border:none;background:none}
   <!-- 메인 -->
   <section id="scrMain" class="screen">
     <div class="sign-row">
-      <h1 class="sign"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>누구 차례야?</h1>
+      <h1 class="sign"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>누구 차례예요?</h1>
       <button class="me-chip" id="meChip" aria-label="가족 탭으로"></button>
     </div>
     <div class="mode-line" id="modeLine"><span class="dot"></span><span id="modeText"></span></div>
 
     <div class="pane on" id="paneDraw">
       <div class="pane-head">
-        <h2>무엇을 정할까?</h2>
+        <h2>무엇을 정할까요?</h2>
         <button class="pill" id="btnEditItems">편집</button>
       </div>
       <div class="items" id="itemGrid"></div>
     </div>
 
     <div class="pane" id="paneHist">
-      <div class="pane-head"><h2>기록</h2></div>
+      <div class="pane-head"><h2>기록</h2><button class="pill" id="btnClearHist">전체 지우기</button></div>
       <div class="hist" id="histList"></div>
     </div>
 
@@ -391,11 +415,11 @@ button{cursor:pointer;border:none;background:none}
 
       <div id="setup" style="display:flex;flex-direction:column;gap:20px">
         <div>
-          <div class="sec-label">누가 참여해? <small>눌러서 빼기</small></div>
+          <div class="sec-label">누가 참여할까요? <small>눌러서 빼기</small></div>
           <div class="chips" id="chips"></div>
         </div>
         <div>
-          <div class="sec-label">어떻게 정할까?</div>
+          <div class="sec-label">어떻게 정할까요?</div>
           <div class="seg" id="modeSeg">
             <button data-mode="one">🎯 한 명 뽑기</button>
             <button data-mode="order">🔢 순서 정하기</button>
@@ -437,7 +461,7 @@ button{cursor:pointer;border:none;background:none}
     <div class="sheet-btns">
       <button class="jelly plain" id="btnDelMember" style="flex:none">삭제</button>
       <button class="jelly plain" data-close>취소</button>
-      <button class="jelly" id="btnSaveMember">저장</button>
+      <button class="jelly" id="btnSaveMember">저장할래요</button>
     </div>
   </div>
 </div>
@@ -445,13 +469,13 @@ button{cursor:pointer;border:none;background:none}
 <!-- 항목 추가 -->
 <div class="modal" id="mItem">
   <div class="sheet">
-    <h3>정할 것 추가</h3>
+    <h3>정할 것 추가하기</h3>
     <input class="field" id="inItem" maxlength="10" placeholder="예: 그네 먼저 타기" autocomplete="off">
     <div class="label" style="margin-top:14px">아이콘</div>
     <div class="grid-pick" id="iconGrid"></div>
     <div class="sheet-btns" style="margin-top:18px">
       <button class="jelly plain" data-close>취소</button>
-      <button class="jelly" id="btnSaveItem">추가하기</button>
+      <button class="jelly" id="btnSaveItem">추가할래요</button>
     </div>
   </div>
 </div>
@@ -461,8 +485,8 @@ button{cursor:pointer;border:none;background:none}
   <div class="sheet">
     <p class="confirm-text" id="confirmText"></p>
     <div class="sheet-btns">
-      <button class="jelly plain" id="cNo">아니</button>
-      <button class="jelly" id="cYes">응</button>
+      <button class="jelly plain" id="cNo">아니오</button>
+      <button class="jelly" id="cYes">예</button>
     </div>
   </div>
 </div>
@@ -496,8 +520,8 @@ const GAMES = [
   {id:'card',  icon:'🃏', name:'카드 뽑기',  tag:'운'},
   {id:'ladder',icon:'🪜', name:'사다리',     tag:'운'},
   {id:'wheel', icon:'🎡', name:'돌림판',     tag:'운'},
+  {id:'bomb',  icon:'💣', name:'지뢰 상자',  tag:'반반'},
   {id:'race',  icon:'🏁', name:'동물 달리기', tag:'반반', soon:true},
-  {id:'bomb',  icon:'💣', name:'폭탄 전선',  tag:'반반', soon:true},
   {id:'quick', icon:'⚡', name:'순발력 대결', tag:'실력', soon:true},
 ];
 const GAME_ICON = Object.fromEntries(GAMES.map(g=>[g.id,g.icon]));
@@ -590,7 +614,9 @@ const Store={
     if(this.mode==='cloud'){ this.ref.child('history').push(h); extra.forEach(k=>this.ref.child('history/'+k).remove()); return; }
     extra.forEach(k=>delete fam.history[k]);
     fam.history[uid()]=h; this._saveLocal();
-  }
+  },
+  removeHistory(k){ if(this.mode==='cloud') return this.ref.child('history/'+k).remove(); delete fam.history[k]; this._saveLocal(); },
+  clearHistory(){ if(this.mode==='cloud') return this.ref.child('history').remove(); fam.history={}; this._saveLocal(); }
 };
 function normalize(v){ v=v||{}; return {createdAt:v.createdAt||0,members:v.members||{},items:v.items||{},history:v.history||{}}; }
 
@@ -604,7 +630,7 @@ let editingItems=false, lastSeenHist=0;
 function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id)); window.scrollTo(0,0); }
 const members=()=>Object.values(fam.members).sort((a,b)=>(a.order||0)-(b.order||0));
 const items=()=>Object.values(fam.items).sort((a,b)=>(a.order||0)-(b.order||0));
-const allHist=()=>Object.values(fam.history).sort((a,b)=>b.t-a.t);
+const allHist=()=>Object.entries(fam.history).map(([k,v])=>({...v,_k:k})).sort((a,b)=>b.t-a.t);
 const myMember=()=>fam.members[me.memberId];
 function toArr(v){ return Array.isArray(v)?v:(v?Object.values(v):[]); }
 
@@ -615,21 +641,21 @@ $('btnNew').onclick=async()=>{
     let code=newCode();
     while(await Store.exists(code)) code=newCode();
     await Store.create(code); await enterFamily(code);
-  }catch(e){ $('startMsg').textContent='가족을 만들지 못했어. 인터넷 연결을 확인해줘.'; }
+  }catch(e){ $('startMsg').textContent='가족을 만들지 못했어요. 인터넷 연결을 확인해주세요.'; }
   $('btnNew').disabled=false;
 };
 $('inCode').addEventListener('input',e=>{ e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,''); $('startMsg').textContent=''; });
 $('inCode').addEventListener('keydown',e=>{ if(e.key==='Enter') $('btnJoin').click(); });
 $('btnJoin').onclick=async()=>{
   const code=$('inCode').value.trim();
-  if(code.length!==6){ $('startMsg').textContent='코드 6자리를 모두 적어줘.'; return; }
+  if(code.length!==6){ $('startMsg').textContent='코드 6자리를 모두 적어주세요.'; return; }
   try{
     if(!(await Store.exists(code))){
-      $('startMsg').textContent=Store.mode==='cloud'?'그런 가족 코드가 없어. 한 글자씩 다시 확인해줘.':'테스트 모드에서는 이 기기에서 만든 가족만 들어갈 수 있어.';
+      $('startMsg').textContent=Store.mode==='cloud'?'그런 가족 코드가 없어요. 한 글자씩 다시 확인해주세요.':'테스트 모드에서는 이 기기에서 만든 가족만 들어갈 수 있어요.';
       return;
     }
     await enterFamily(code);
-  }catch(e){ $('startMsg').textContent='연결하지 못했어. 인터넷 연결을 확인해줘.'; }
+  }catch(e){ $('startMsg').textContent='연결하지 못했어요. 인터넷 연결을 확인해주세요.'; }
 };
 async function enterFamily(code){
   me.code=code; LS.set('turn_me',me);
@@ -643,10 +669,10 @@ function onFamChange(first){
     const b=fam.members[h.by], who=b?esc(b.name):'누군가';
     if(h.mode==='order'){
       const o=toArr(h.order).map(id=>fam.members[id]).filter(Boolean);
-      toast(`${who}가 ${esc(h.icon)} ${esc(h.name)} 순서를 정했어: 1번째 <b>${o[0]?esc(o[0].name):'?'}</b>`);
+      toast(`${who}님이 ${esc(h.icon)} ${esc(h.name)} 순서를 정했어요: 1번째 <b>${o[0]?esc(o[0].name):'?'}</b>`);
     }else{
       const w=fam.members[h.winner];
-      toast(`${who}가 ${esc(h.icon)} ${esc(h.name)} 뽑았어: <b>${w?esc(w.name):'?'} 차례!</b>`);
+      toast(`${who}님이 ${esc(h.icon)} ${esc(h.name)} 뽑았어요: <b>${w?esc(w.name):'?'} 차례!</b>`);
     }
   }
   if(h) lastSeenHist=Math.max(lastSeenHist,h.t);
@@ -668,7 +694,7 @@ function pickMe(id){ me.memberId=id; LS.set('turn_me',me); show('scrMain'); swit
 function render(){
   if(!me.code) return;
   const m=myMember();
-  $('meChip').innerHTML=m?`${avatar(m,30)}<span>${esc(m.name)}</span>`:'나 고르기';
+  $('meChip').innerHTML=m?`${avatar(m,30)}<span>${esc(m.name)}</span>`:'누구세요?';
   const cloud=Store.mode==='cloud';
   $('modeLine').classList.toggle('cloud',cloud);
   $('modeText').textContent=cloud?'가족 연결됨: 모두의 폰에 함께 보여요':'혼자 테스트 모드: 이 기기에만 저장돼요';
@@ -681,7 +707,7 @@ function renderItems(){
   $('btnEditItems').textContent=editingItems?'완료':'편집';
   grid.innerHTML=items().map(it=>{
     const lw=allHist().find(h=>h.item===it.id);
-    let last='아직 안 해봤어';
+    let last='아직 안 해봤어요';
     if(lw){
       if(lw.mode==='order'){ const f=fam.members[toArr(lw.order)[0]]; if(f) last=`지난번 1번째 ${avatar(f,20)} ${esc(f.name)}`; }
       else { const w=fam.members[lw.winner]; if(w) last=`지난번 ${avatar(w,20)} ${esc(w.name)}`; }
@@ -697,29 +723,39 @@ function renderItems(){
   });
   grid.querySelectorAll('[data-del]').forEach(b=>b.onclick=async e=>{
     e.stopPropagation(); const it=fam.items[b.dataset.del];
-    if(await askConfirm(`"${it.name}" 항목을 지울까?`)) Store.removeItem(it.id);
+    if(await askConfirm(`"${it.name}" 항목을 지울까요?`)) Store.removeItem(it.id);
   });
   $('itemAdd').onclick=openItem;
 }
 $('btnEditItems').onclick=()=>{ editingItems=!editingItems; renderItems(); };
 
+let histLimit=20;
 function renderHist(){
   const list=allHist();
-  if(!list.length){ $('histList').innerHTML=`<div class="empty"><span class="big">📒</span>아직 기록이 없어.<br>첫 번째 게임을 해봐!</div>`; return; }
-  $('histList').innerHTML=list.map(h=>{
+  $('btnClearHist').style.display=list.length?'':'none';
+  if(!list.length){ $('histList').innerHTML=`<div class="empty"><span class="big">📒</span>아직 기록이 없어요.<br>첫 번째 게임을 해볼까요?</div>`; return; }
+  const shown=list.slice(0,histLimit);
+  $('histList').innerHTML=shown.map(h=>{
     const b=fam.members[h.by];
-    const meta=`${timeText(h.t)}, ${GAME_ICON[h.game||'card']||'🃏'}${b?` ${esc(b.name)}가 했어`:''}`;
+    const meta=`${timeText(h.t)}, ${GAME_ICON[h.game||'card']||'🃏'}${b?` ${esc(b.name)}님이 했어요`:''}`;
+    const del=`<button class="h-del" data-hdel="${h._k}" aria-label="이 기록 지우기">✕</button>`;
     if(h.mode==='order'){
       const o=toArr(h.order).map(id=>fam.members[id]);
       return `<div class="h-row"><span class="ic">${esc(h.icon)}</span>
         <div class="h-main"><b>${esc(h.name)} 순서</b><div class="h-meta">${meta}</div></div>
-        <div class="h-order">${o.map(m=>avatar(m,26)).join('')}</div></div>`;
+        <div class="h-order">${o.map(m=>avatar(m,24)).join('')}</div>${del}</div>`;
     }
     const w=fam.members[h.winner];
     return `<div class="h-row"><span class="ic">${esc(h.icon)}</span>
       <div class="h-main"><b>${esc(h.name)}: ${w?esc(w.name):'(나간 가족)'} 차례</b><div class="h-meta">${meta}</div></div>
-      ${avatar(w,38)}</div>`;
-  }).join('');
+      ${avatar(w,34)}${del}</div>`;
+  }).join('') + (list.length>histLimit
+      ? `<button class="more-btn" id="btnMoreHist">더보기 (${list.length-histLimit}개 더 있어요)</button>` : '');
+  $('histList').querySelectorAll('[data-hdel]').forEach(b=>b.onclick=async()=>{
+    if(await askConfirm('이 기록 한 줄을 지울까요?')) Store.removeHistory(b.dataset.hdel);
+  });
+  const more=$('btnMoreHist');
+  if(more) more.onclick=()=>{ histLimit+=20; renderHist(); };
 }
 function renderFam(){
   const cnt={}; allHist().forEach(h=>{ if(h.mode!=='order' && h.winner) cnt[h.winner]=(cnt[h.winner]||0)+1; });
@@ -728,7 +764,7 @@ function renderFam(){
       <span class="nm">${esc(m.name)}${m.id===me.memberId?'<span class="tag">나</span>':''}</span>
       <span class="cnt">${cnt[m.id]||0}번 당첨</span>
       <button class="edit" data-edit="${m.id}" aria-label="${esc(m.name)} 바꾸기">✏️</button></div>`).join('')
-    ||`<div class="empty">가족을 추가해줘!</div>`;
+    ||`<div class="empty">가족을 추가해주세요!</div>`;
   $('famList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openMember(b.dataset.edit));
 }
 function switchPane(id){
@@ -738,11 +774,14 @@ function switchPane(id){
 }
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>switchPane(b.dataset.pane));
 $('meChip').onclick=()=>switchPane('paneFam');
-$('btnCopy').onclick=async()=>{ try{ await navigator.clipboard.writeText(me.code); toast('가족 코드를 복사했어! 가족에게만 보내줘'); }catch(e){ toast(`가족 코드: <b>${me.code}</b>`); } };
+$('btnCopy').onclick=async()=>{ try{ await navigator.clipboard.writeText(me.code); toast('가족 코드를 복사했어요! 가족에게만 보내주세요'); }catch(e){ toast(`가족 코드: <b>${me.code}</b>`); } };
+$('btnClearHist').onclick=async()=>{
+  if(await askConfirm('기록을 전부 지울까요? 되돌릴 수 없어요.')){ Store.clearHistory(); histLimit=20; toast('기록을 모두 지웠어요'); }
+};
 $('btnAddMember').onclick=()=>openMember(null);
 $('btnSwitchMe').onclick=openWho;
 $('btnLeave').onclick=async()=>{
-  if(!(await askConfirm('이 폰에서 가족을 나갈까? 코드가 있으면 다시 들어올 수 있어.'))) return;
+  if(!(await askConfirm('이 폰에서 가족을 나갈까요? 코드가 있으면 다시 들어올 수 있어요.'))) return;
   if(Store.ref) Store.ref.off();
   me={code:null,memberId:null}; LS.set('turn_me',me); $('inCode').value=''; show('scrStart');
 };
@@ -754,7 +793,7 @@ function openMember(id,isSelf=false){
   const m=id?fam.members[id]:null;
   mEdit=m?{...m}:{id:uid(),name:'',emoji:SETS.animal[rnd(12)],color:COLORS[rnd(COLORS.length)],order:Date.now()};
   mEdit.set=!mEdit.emoji?'simple':(Object.keys(SETS).find(k=>SETS[k].includes(mEdit.emoji))||'animal');
-  $('mMemberTitle').textContent=m?'가족 바꾸기':(isSelf?'나를 추가하기':'가족 추가');
+  $('mMemberTitle').textContent=m?'가족 바꾸기':(isSelf?'나를 추가하기':'가족 추가하기');
   $('btnDelMember').style.display=m?'':'none';
   $('inName').value=mEdit.name; nameCount();
   drawMemberSheet(); $('mMember').classList.add('on');
@@ -783,14 +822,14 @@ document.querySelectorAll('#charTabs button').forEach(b=>b.onclick=()=>{
 });
 $('btnSaveMember').onclick=()=>{
   const name=[...$('inName').value.trim()].slice(0,NAME_MAX).join('');
-  if(!name){ $('inName').focus(); toast('이름을 적어줘!'); return; }
+  if(!name){ $('inName').focus(); toast('이름을 적어주세요!'); return; }
   const m={id:mEdit.id,name,emoji:mEdit.emoji||null,color:mEdit.color,order:mEdit.order||Date.now()};
   Store.setMember(m); $('mMember').classList.remove('on');
   if(mIsSelf) pickMe(m.id);
 };
 $('btnDelMember').onclick=async()=>{
   const m=fam.members[mEdit.id]; $('mMember').classList.remove('on');
-  if(await askConfirm(`${m.name}을(를) 가족에서 뺄까?`)){
+  if(await askConfirm(`${m.name}님을 가족에서 뺄까요?`)){
     Store.removeMember(m.id);
     if(m.id===me.memberId){ me.memberId=null; LS.set('turn_me',me); openWho(); }
   }
@@ -805,7 +844,7 @@ function drawIconGrid(){
 }
 $('btnSaveItem').onclick=()=>{
   const name=$('inItem').value.trim();
-  if(!name){ $('inItem').focus(); toast('이름을 적어줘!'); return; }
+  if(!name){ $('inItem').focus(); toast('이름을 적어주세요!'); return; }
   Store.setItem({id:uid(),name,icon:newIcon,order:Date.now()}); $('mItem').classList.remove('on');
 };
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('.modal').classList.remove('on'));
@@ -819,7 +858,7 @@ let D=null; // {item, joined:Set, token}
 function openDraw(itemId){
   const it=fam.items[itemId]; if(!it) return;
   const all=members();
-  if(all.length<2){ toast('가족이 2명 이상 있어야 해!'); switchPane('paneFam'); return; }
+  if(all.length<2){ toast('가족이 2명 이상 있어야 해요!'); switchPane('paneFam'); return; }
   D={item:it,joined:new Set(all.map(m=>m.id)),token:0};
   $('drawTitle').innerHTML=`<span>${esc(it.icon)}</span>${esc(it.name)}`;
   showSetup(); show('scrDraw');
@@ -836,7 +875,7 @@ function renderSetup(){
   $('chips').innerHTML=members().map(m=>`<button class="chip ${D.joined.has(m.id)?'on':''}" data-id="${m.id}">${avatar(m,28)}${esc(m.name)}</button>`).join('');
   $('chips').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
     const id=c.dataset.id;
-    if(D.joined.has(id)){ if(D.joined.size<=2){ toast('최소 2명은 있어야 해!'); return; } D.joined.delete(id); }
+    if(D.joined.has(id)){ if(D.joined.size<=2){ toast('최소 2명은 있어야 해요!'); return; } D.joined.delete(id); }
     else D.joined.add(id);
     renderSetup();
   });
@@ -873,7 +912,7 @@ function startGame(){
     buttons:html=>{ $('drawBtns').innerHTML=html; },
     done:res=>finish(res,tok),
   };
-  ({card:gameCard,ladder:gameLadder,wheel:gameWheel})[PREF.game](ctx);
+  ({card:gameCard,ladder:gameLadder,wheel:gameWheel,bomb:gameBomb})[PREF.game](ctx);
   window.scrollTo(0,0);
 }
 
@@ -891,8 +930,7 @@ function finish(res,tok){
   }else{
     h.winner=res.winner.id;
     r.innerHTML=`<div class="party-av">${avatar(res.winner,92)}</div>
-      <div class="party-t">🎉 ${esc(res.winner.name)} 차례!</div>
-      <div class="party-s">축하 파티 시작!</div>`;
+      <div class="party-t">🎉 ${esc(res.winner.name)} 차례!</div>`;
     confetti(res.winner.color);
   }
   r.classList.add('on');
@@ -926,12 +964,12 @@ function gameCard(ctx){
       <div class="face front" style="background:${m?m.color:'#fff'}">${m?`<span class="rk"></span><span class="fi">${faceOf(m)}</span><span class="fn">${esc(m.name)}</span>`:''}</div>
     </div></div>`;
   stage.innerHTML=list.map((_,i)=>cardHTML(i,null)).join('');
-  ctx.hint('카드를 섞어볼까?');
+  ctx.hint('카드를 섞어볼까요?');
   ctx.buttons(`<button class="jelly full big" id="btnShuffle">🃏 카드 섞기</button>`);
   $('btnShuffle').onclick=()=>{
     const deal=shuffle(list);
     stage.innerHTML=deal.map((m,i)=>cardHTML(i,m)).join('');
-    ctx.buttons(''); ctx.hint('섞는 중...');
+    ctx.buttons(''); ctx.hint('섞는 중이에요...');
     const sr=stage.getBoundingClientRect(), cx=sr.left+sr.width/2, cy=sr.top+sr.height/2;
     stage.querySelectorAll('.card').forEach(c=>{
       const r=c.getBoundingClientRect();
@@ -945,7 +983,7 @@ function gameCard(ctx){
       if(!ctx.alive()) return;
       let rank=0; const order=[];
       const cards=[...stage.querySelectorAll('.card')];
-      ctx.hint(mode==='order'?'한 장씩 뒤집어봐! 먼저 나온 사람이 1번째':'한 장 골라줘!');
+      ctx.hint(mode==='order'?'한 장씩 뒤집어보세요! 먼저 나온 사람이 1번째예요':'한 장 골라주세요!');
       cards.forEach(c=>{
         c.classList.remove('moving'); c.classList.add('pickable');
         c.setAttribute('role','button'); c.setAttribute('tabindex','0');
@@ -957,7 +995,7 @@ function gameCard(ctx){
           if(mode==='order'){
             rank++; order.push(m);
             c.querySelector('.rk').textContent=rank+'번째';
-            if(rank<n) ctx.hint(`${rank+1}번째는 누구일까?`);
+            if(rank<n) ctx.hint(`${rank+1}번째는 누구일까요?`);
             else { ctx.hint(''); setTimeout(()=>ctx.done({order}),700); }
           }else{
             cards.forEach(o=>{ o.classList.remove('pickable'); o.onclick=null; });
@@ -1034,7 +1072,7 @@ function gameLadder(ctx){
 
   const results=new Array(n).fill(null);
   let running=0, doneCount=0;
-  ctx.hint('누구부터 내려가 볼까? 캐릭터를 눌러!');
+  ctx.hint('누구부터 내려가 볼까요? 캐릭터를 눌러주세요!');
   ctx.buttons(`<button class="jelly mint full" id="btnAll">한 번에 다 보기</button>`);
 
   function run(i){
@@ -1133,7 +1171,7 @@ function gameWheel(ctx){
     void w.offsetWidth; w.classList.remove('no-anim');
   };
   draw();
-  ctx.hint(mode==='order'?'돌려서 1번째를 정해보자!':'가운데 버튼을 눌러 돌려!');
+  ctx.hint(mode==='order'?'돌려서 1번째를 정해볼까요?':'가운데 버튼을 눌러주세요!');
   ctx.buttons('');
   $('btnSpin').onclick=()=>{
     if(spinning || !ctx.alive()) return;
@@ -1145,7 +1183,7 @@ function gameWheel(ctx){
     rot += 360*5 + ((want-(rot%360))+360)%360;
     $('wWrap').classList.add('spinning');
     $('wheel').style.transform=`rotate(${rot}deg)`;
-    ctx.hint('빙글빙글...');
+    ctx.hint('빙글빙글 도는 중이에요...');
     tickSounds();
     setTimeout(()=>{
       if(!ctx.alive()) return;
@@ -1162,7 +1200,7 @@ function gameWheel(ctx){
         ctx.hint(''); setTimeout(()=>ctx.done({order}),700);
         return;
       }
-      ctx.hint(`${order.length}번째는 ${m.name}! 다음 돌리기`);
+      ctx.hint(`${order.length}번째는 ${esc(m.name)}! 한 번 더 돌려주세요`);
       setTimeout(()=>{ if(!ctx.alive()) return; draw(); $('btnSpin').disabled=false; },900);
     },4400);
   };
@@ -1172,7 +1210,82 @@ function gameWheel(ctx){
   }
 }
 
-/* ---------- 사탕 파티 효과 ---------- */
+/* =========================================================
+   💣 지뢰 상자
+   ========================================================= */
+function gameBomb(ctx){
+  const {mode}=ctx;
+  const players=shuffle(ctx.list);
+  const n=players.length;
+  const side = n<=4?4 : n<=7?5 : 6;
+  const total=side*side;
+
+  // 한 명 뽑기: 폭탄 1개. 순서 정하기: 1~n 번호표를 숨김
+  const cells=new Array(total).fill(0);   // 0 = 꽝
+  if(mode==='order'){
+    shuffle([...Array(total).keys()]).slice(0,n).forEach((c,i)=>cells[c]=i+1);
+  }else{
+    cells[rnd(total)]='boom';
+  }
+
+  let turn=0;                              // 지금 누구 차례
+  const got={};                            // 순서 모드: 뽑은 번호
+  const left=()=>players.filter(p=>!(p.id in got));
+
+  $('gameArea').innerHTML=`
+    <div class="mine-wrap">
+      <div class="mine-turn" id="mTurn"></div>
+      <div class="mine-grid" id="mGrid" style="grid-template-columns:repeat(${side},1fr)">
+        ${cells.map((_,i)=>`<button class="box" data-c="${i}">📦</button>`).join('')}
+      </div>
+      <div class="mine-bar" id="mBar"></div>
+      <div class="mine-info" id="mInfo"></div>
+    </div>`;
+
+  function now(){ const L=mode==='order'?left():players; return L.length?L[turn%L.length]:players[0]; }
+  function paint(){
+    const p=now();
+    $('mTurn').innerHTML=`<span class="who">${avatar(p,34)}<span>${esc(p.name)}</span></span> 차례!`;
+    $('mBar').innerHTML=players.map(m=>{
+      const g=got[m.id];
+      return `<span class="${g?'out':''}">${avatar(m,22)}<b>${esc(m.name)}${g?` ${g}번째`:''}</b></span>`;
+    }).join('');
+    const opened=$('gameArea').querySelectorAll('.box.open,.box.boom').length;
+    $('mInfo').textContent = mode==='order'
+      ? `남은 번호표 ${left().length}개, 안 연 상자 ${total-opened}개예요`
+      : `안 연 상자 ${total-opened}개 중에 폭탄이 1개 있어요`;
+  }
+  const lockAll=()=>$('mGrid').querySelectorAll('.box').forEach(o=>{ o.disabled=true; o.onclick=null; });
+  ctx.hint(mode==='order'?'상자를 열어 번호표를 찾아볼까요?':'폰을 넘겨가며 상자를 하나씩 열어볼까요?');
+  ctx.buttons('');
+  paint();
+
+  $('mGrid').querySelectorAll('.box').forEach(b=>b.onclick=()=>{
+    if(!ctx.alive()) return;
+    const i=+b.dataset.c, v=cells[i], p=now();
+    b.disabled=true;
+    if(mode==='order'){
+      if(v){
+        got[p.id]=v; b.textContent=v+'번째'; b.classList.add('open','num'); playSound('flip');
+        if(left().length===0){ lockAll(); ctx.hint(''); setTimeout(()=>ctx.done({order:players.slice().sort((a,c)=>got[a.id]-got[c.id])}),700); return; }
+      }else{
+        b.textContent=''; b.classList.add('open'); playSound('pop');
+      }
+      turn++; paint();
+      return;
+    }
+    if(v==='boom'){
+      b.textContent='💥'; b.classList.add('boom'); playSound('boom');
+      lockAll();
+      ctx.hint(''); setTimeout(()=>ctx.done({winner:p}),900);
+      return;
+    }
+    b.textContent=''; b.classList.add('open'); playSound('pop');
+    turn++; paint();
+  });
+}
+
+/* ---------- 파티 효과 ---------- */
 function confetti(main){
   const cols=[main,'#9CC7EA','#F6C7AE','#EFD9A0','#AFCBB3','#34465A'];
   for(let k=0;k<54;k++){
@@ -1208,6 +1321,7 @@ function playSound(type,dur=1){
     if(type==='pop') tone(880,0,.12,.08,'sine');
     if(type==='tick') tone(1400,0,.03,.04,'square');
     if(type==='ladder'){ const k=Math.floor(dur*6); for(let i=0;i<k;i++) tone(520+i*40,i/6,.06,.04,'triangle'); }
+    if(type==='boom'){ const o=AC.createOscillator(),g=AC.createGain(); o.type='sawtooth'; o.frequency.setValueAtTime(260,now); o.frequency.exponentialRampToValueAtTime(40,now+.5); g.gain.setValueAtTime(.16,now); g.gain.exponentialRampToValueAtTime(.0001,now+.55); o.connect(g).connect(AC.destination); o.start(now); o.stop(now+.6); }
     if(type==='party'){
       [523,659,784,1047,784,1047].forEach((f,i)=>tone(f,i*.11,.3,.1,'triangle'));
       [1568,2093,2637].forEach((f,i)=>tone(f,.7+i*.07,.25,.04,'sine'));
